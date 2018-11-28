@@ -23,8 +23,6 @@ num_test_samples = 200
 eps = 50
 b_size = 16
 
-print(f"Training data points: {num_train_samples}")
-print(f"Testing data points: {num_test_samples}")
 print(f"Epochs: {eps}")
 print(f"Batch size: {b_size}")
 
