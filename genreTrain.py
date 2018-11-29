@@ -5,8 +5,8 @@ This code is based on the Keras example at https://gist.github.com/fchollet/0830
 from keras.callbacks import ReduceLROnPlateau
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
-from keras.layers import Conv2D, MaxPooling2D
-from keras.layers import Activation, Dropout, Flatten, Dense
+from keras.layers import Activation, Dropout, Flatten, Dense, \
+    BatchNormalization, Conv1D, MaxPooling1D
 from keras.optimizers import adam
 import numpy as np
 from keras import backend as K
