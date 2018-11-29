@@ -2,11 +2,12 @@
 This code is based on the Keras example at https://gist.github.com/fchollet/0830affa1f7f19fd47b06d4cf89ed44d
 '''
 
-
+from keras.callbacks import ReduceLROnPlateau
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
+from keras.optimizers import adam
 import numpy as np
 from keras import backend as K
 
@@ -20,7 +21,7 @@ print(f"Test directory: {test_dir}")
 
 num_train_samples = 600
 num_test_samples = 200
-eps = 50
+eps = 100
 b_size = 16
 
 print(f"Epochs: {eps}")
@@ -32,17 +33,23 @@ else:
     input_shape = (h, w, 3)
 
 model = Sequential()
-model.add(Conv2D(32, (3,3), input_shape = input_shape))
+model.add(Conv1D(256, 5, input_shape = input_shape))
+model.add(BatchNormalization(momentum=0.9))
 model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(MaxPooling1D(pool_size=2))
+model.add(Dropout(0.5))
 
-model.add(Conv2D(32, (3,3)))
+model.add(Conv1D(256, 5))
+model.add(BatchNormalization(momentum=0.9))
 model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(MaxPooling1D(pool_size=2))
+model.add(Dropout(0.5))
 
-model.add(Conv2D(64, (3,3)))
+model.add(Conv1D(256, 5))
+model.add(BatchNormalization(momentum=0.9))
 model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(MaxPooling1D(pool_size=2))
+model.add(Dropout(0.5))
 
 model.add(Flatten())
 model.add(Dense(64))
@@ -50,6 +57,8 @@ model.add(Activation('relu'))
 model.add(Dropout(0.5))
 model.add(Dense(10))
 model.add(Activation('softmax'))
+
+opt = Adam(lr=0.001)
 
 model.compile(loss='categorical_crossentropy',
               optimizer='adam',
