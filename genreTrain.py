@@ -6,7 +6,7 @@ from keras.callbacks import ReduceLROnPlateau
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Activation, Dropout, Flatten, Dense, \
-    BatchNormalization, Conv1D, MaxPooling1D
+    BatchNormalization, Conv2D, MaxPooling2D
 from keras.optimizers import adam
 import numpy as np
 from keras import backend as K
@@ -33,22 +33,22 @@ else:
     input_shape = (h, w, 3)
 
 model = Sequential()
-model.add(Conv1D(256, 5, input_shape = input_shape))
+model.add(Conv2D(256, 5, input_shape = input_shape))
 model.add(BatchNormalization(momentum=0.9))
 model.add(Activation('relu'))
-model.add(MaxPooling1D(pool_size=2))
+model.add(MaxPooling2D(pool_size=2))
 model.add(Dropout(0.5))
 
-model.add(Conv1D(256, 5))
+model.add(Conv2D(256, 5))
 model.add(BatchNormalization(momentum=0.9))
 model.add(Activation('relu'))
-model.add(MaxPooling1D(pool_size=2))
+model.add(MaxPooling2D(pool_size=2))
 model.add(Dropout(0.5))
 
-model.add(Conv1D(256, 5))
+model.add(Conv2D(256, 5))
 model.add(BatchNormalization(momentum=0.9))
 model.add(Activation('relu'))
-model.add(MaxPooling1D(pool_size=2))
+model.add(MaxPooling2D(pool_size=2))
 model.add(Dropout(0.5))
 
 model.add(Flatten())
