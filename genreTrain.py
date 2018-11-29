@@ -91,7 +91,12 @@ model.fit_generator(
     steps_per_epoch=num_train_samples // b_size,
     epochs=eps,
     validation_data=test_gen,
-    validation_steps=num_test_samples // b_size)
+    validation_steps=num_test_samples // b_size,
+    callbacks=[
+        ReduceLROnPlateau(
+            monitor='val_acc', factor=0.5, patience=10, min_delta=0.01]
+        )
+    )
 
 saveFile = 'first_run.h5'
 
