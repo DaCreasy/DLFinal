@@ -94,9 +94,7 @@ model.fit_generator(
     validation_steps=num_test_samples // b_size,
     callbacks=[
         ReduceLROnPlateau(
-            monitor='val_acc', factor=0.5, patience=10, min_delta=0.01]
-        )
-    )
+            monitor='val_acc', factor=0.5, patience=10, min_delta=0.01)])
 
 saveFile = 'first_run.h5'
 
