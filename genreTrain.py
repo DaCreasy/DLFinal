@@ -19,8 +19,8 @@ print(f"Image size: {w}x{h}")
 print(f"Train directory: {train_dir}")
 print(f"Test directory: {test_dir}")
 
-num_train_samples = 600
-num_test_samples = 200
+num_train_samples = 800
+num_test_samples = 100
 eps = 1000
 b_size = 16
 
@@ -34,20 +34,20 @@ else:
 
 model = Sequential()
 model.add(Conv2D(32, (3,3), input_shape = input_shape))
-model.add(Activation('relu'))
+model.add(Activation('softplus'))
 model.add(MaxPooling2D(pool_size=2))
 
 model.add(Conv2D(32, (3,3)))
-model.add(Activation('relu'))
+model.add(Activation('softplus'))
 model.add(MaxPooling2D(pool_size=2))
 
 model.add(Conv2D(32, (3,3)))
-model.add(Activation('relu'))
+model.add(Activation('softplus'))
 model.add(MaxPooling2D(pool_size=2))
 
 model.add(Flatten())
 model.add(Dense(64))
-model.add(Activation('relu'))
+model.add(Activation('softplus'))
 model.add(Dropout(0.5))
 model.add(Dense(10))
 model.add(Activation('softmax'))
@@ -90,7 +90,7 @@ model.fit_generator(
         ReduceLROnPlateau(
             monitor='val_acc', factor=0.5, patience=10, min_delta=0.01)])
 
-saveFile = 'first_run.h5'
+saveFile = 'second_run.h5'
 
 model.save_weights(saveFile)
 print(f"Saving model to {saveFile}")
