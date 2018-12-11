@@ -8,8 +8,10 @@ from keras.models import Sequential
 from keras.layers import Activation, Dropout, Flatten, Dense, \
     BatchNormalization, Conv2D, MaxPooling2D
 from keras.optimizers import Adam
-import numpy as np
 from keras import backend as K
+from ann_visualizer.visualize import ann_vis
+import numpy as np
+import matplotlib.pyplot as plt
 
 w,h = 678, 512
 train_dir = 'data/train'
@@ -56,10 +58,10 @@ opt = Adam(lr=0.001)
 
 model.compile(loss='categorical_crossentropy',
               optimizer=opt,
-              metrics=['accuracy'])
+              metrics=['categorical_accuracy'])
 
 print('Model has been compiled')
-
+'''
 train_datagen = ImageDataGenerator(rescale=1./255,
                                    shear_range=0.2,
                                    zoom_range=0.2,
@@ -80,7 +82,7 @@ test_gen = test_datagen.flow_from_directory(
     class_mode='categorical')
 
 
-model.fit_generator(
+history = model.fit_generator(
     train_gen,
     steps_per_epoch=num_train_samples // b_size,
     epochs=eps,
@@ -89,8 +91,24 @@ model.fit_generator(
     callbacks=[
         ReduceLROnPlateau(
             monitor='val_acc', factor=0.5, patience=10, min_delta=0.01)])
+'''
+modelArch = "5_layer_cnn.gv"
+archTitle = "Five Layer CNN"
+print(f"Saving model architecture to {modelArch}")
+ann_viz(model, title=archTitle, filename=modelArch)
 
-saveFile = 'second_run.h5'
+'''
+accFile = "second_run.png"
+plt.plot(history.history['acc'])
+plt.plot(history.history['val_acc'])
+plt.title('Model accuracy')
+plt.ylabel('Accuracy')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Test'], loc='upper left')
+plt.savefig(accFile, bbox_inches='tight')
 
-model.save_weights(saveFile)
-print(f"Saving model to {saveFile}")
+'''
+#modelResults = 'second_run.h5'
+
+#model.save_weights(modelResults)
+#print(f"Saving model results to {modelResults}")
