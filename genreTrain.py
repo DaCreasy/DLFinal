@@ -9,7 +9,7 @@ from keras.layers import Activation, Dropout, Flatten, Dense, \
     BatchNormalization, Conv2D, MaxPooling2D
 from keras.optimizers import Adam
 from keras import backend as K
-from ann_visualizer.visualize import ann_vis
+from ann_visualizer.visualize import ann_viz
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -61,7 +61,7 @@ model.compile(loss='categorical_crossentropy',
               metrics=['categorical_accuracy'])
 
 print('Model has been compiled')
-'''
+#'''A
 train_datagen = ImageDataGenerator(rescale=1./255,
                                    shear_range=0.2,
                                    zoom_range=0.2,
@@ -88,27 +88,43 @@ history = model.fit_generator(
     epochs=eps,
     validation_data=test_gen,
     validation_steps=num_test_samples // b_size,
+    verbose=2,
     callbacks=[
         ReduceLROnPlateau(
             monitor='val_acc', factor=0.5, patience=10, min_delta=0.01)])
-'''
+
+#A'''
+
+'''B
 modelArch = "5_layer_cnn.gv"
 archTitle = "Five Layer CNN"
 print(f"Saving model architecture to {modelArch}")
 ann_viz(model, title=archTitle, filename=modelArch)
+B'''
 
-'''
-accFile = "second_run.png"
+curRun = "run_2"
+
+#'''C
+accFile = "images/"  + curRun + "/acc.png"
 plt.plot(history.history['acc'])
 plt.plot(history.history['val_acc'])
-plt.title('Model accuracy')
+plt.title('')
 plt.ylabel('Accuracy')
 plt.xlabel('Epoch')
 plt.legend(['Train', 'Test'], loc='upper left')
 plt.savefig(accFile, bbox_inches='tight')
 
-'''
-#modelResults = 'second_run.h5'
+lossFile = "images/" + curRun + "/loss.png"
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Test'], loc='upper left')
+plt.savefig(lossFile, bbox_inches='tight')
 
-#model.save_weights(modelResults)
-#print(f"Saving model results to {modelResults}")
+modelResults = 'models/second_run.h5'
+
+model.save_weights(modelResults)
+print(f"Saving model results to {modelResults}")
+#C'''
