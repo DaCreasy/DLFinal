@@ -9,6 +9,7 @@ from ann_visualizer.visualize import ann_viz
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Width and height of images
 w,h = 678, 512
 train_dir = 'data/train'
 test_dir = 'data/test'
@@ -17,6 +18,7 @@ print(f"Image size: {w}x{h}")
 print(f"Train directory: {train_dir}")
 print(f"Test directory: {test_dir}")
 
+# Number of data points, epochs and batch size
 num_train_samples = 800
 num_test_samples = 100
 eps = 1000
@@ -25,11 +27,13 @@ b_size = 16
 print(f"Epochs: {eps}")
 print(f"Batch size: {b_size}")
 
+# Format of numpy arrays is either channels first or channels last
 if K.image_data_format() == 'channels_first':
     input_shape = (3, h, w)
 else:
     input_shape = (h, w, 3)
-
+    
+print('Building model architecture')
 model = Sequential()
 model.add(Conv2D(32, (3,3), input_shape = input_shape))
 model.add(Activation('relu'))
@@ -58,6 +62,8 @@ model.compile(loss='categorical_crossentropy',
 
 print('Model has been compiled')
 #'''A
+#Use data generators to get the images, apply preprocessing, and generate numpy arrays
+#Train the model
 train_datagen = ImageDataGenerator(rescale=1./255,
                                    shear_range=0.2,
                                    zoom_range=0.2,
