@@ -1,7 +1,3 @@
-''''
-This code is based on the Keras example at https://gist.github.com/fchollet/0830affa1f7f19fd47b06d4cf89ed44d
-'''
-
 from keras.callbacks import ReduceLROnPlateau
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
@@ -36,20 +32,20 @@ else:
 
 model = Sequential()
 model.add(Conv2D(32, (3,3), input_shape = input_shape))
-model.add(Activation('softplus'))
+model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=2))
 
 model.add(Conv2D(32, (3,3)))
-model.add(Activation('softplus'))
+model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=2))
 
 model.add(Conv2D(32, (3,3)))
-model.add(Activation('softplus'))
+model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=2))
 
 model.add(Flatten())
 model.add(Dense(64))
-model.add(Activation('softplus'))
+model.add(Activation('relu'))
 model.add(Dropout(0.5))
 model.add(Dense(10))
 model.add(Activation('softmax'))
@@ -58,7 +54,7 @@ opt = Adam(lr=0.001)
 
 model.compile(loss='categorical_crossentropy',
               optimizer=opt,
-              metrics=['categorical_accuracy'])
+              metrics=['accuracy'])
 
 print('Model has been compiled')
 #'''A
@@ -88,23 +84,25 @@ history = model.fit_generator(
     epochs=eps,
     validation_data=test_gen,
     validation_steps=num_test_samples // b_size,
-    verbose=2,
     callbacks=[
         ReduceLROnPlateau(
-            monitor='val_acc', factor=0.5, patience=10, min_delta=0.01)])
+            monitor='val_categorical_accuracy', factor=0.5, patience=10, min_delta=0.01)])
 
 #A'''
 
 '''B
+#Generate a representation of the model architecture
 modelArch = "5_layer_cnn.gv"
 archTitle = "Five Layer CNN"
 print(f"Saving model architecture to {modelArch}")
 ann_viz(model, title=archTitle, filename=modelArch)
 B'''
 
-curRun = "run_2"
+curRun = "run_1"
 
 #'''C
+#Generate graphs of accuracy vs time and loss vs time
+#Then save the model
 accFile = "images/"  + curRun + "/acc.png"
 plt.plot(history.history['acc'])
 plt.plot(history.history['val_acc'])
@@ -123,7 +121,7 @@ plt.xlabel('Epoch')
 plt.legend(['Train', 'Test'], loc='upper left')
 plt.savefig(lossFile, bbox_inches='tight')
 
-modelResults = 'models/second_run.h5'
+modelResults = 'models/' + curRun + '.h5'
 
 model.save_weights(modelResults)
 print(f"Saving model results to {modelResults}")
