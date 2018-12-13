@@ -1,6 +1,7 @@
 # Final Project for CS-471. Music genre classification.
 
 Utilizes the GTZAN Genre Collection (http://marsyas.info/downloads/datasets.html)
+
 A good label:
 Blues 1: One Bourbon, One Scotch, One Beer by John Lee Hooker (https://www.youtube.com/watch?v=y1mF4Jnsnp4)
 
